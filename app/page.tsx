@@ -55,7 +55,7 @@ export default function Home() {
       }}>
         Chào mừng bạn đến với EventSphere - Nơi tổ chức sự kiện trở nên dễ dàng hơn!
       </p>
-      <Link href="/EventManager2">
+      <Link href="/EventManager">
         <button
           style={buttonStyle}
           onMouseEnter={handleMouseEnter}
