@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import EventForm from '@/components/Events/EventForm';
 import EventList from '@/components/Events/EventList';
-
+import styles from '../styles/EventManager.module.css';
 export default function EventManager() {
   const [events, setEvents] = useState([]);
   const [formData, setFormData] = useState({
@@ -116,8 +116,8 @@ const addEvent = async () => {
 };
 
   return (
-    <div className="event-manager">
-      <h2>Quản lý Sự kiện</h2>
+    <div className={styles.eventManager}>
+      <h2 className={styles.eventManagerTitle}>Quản lý Sự kiện</h2>
 
       {error && <div className="error-message">{error}</div>}
 

@@ -1,13 +1,12 @@
 import React from 'react';
-
+import styles from '../../styles/EventList.module.css'
 const EventList = ({ events, onEdit, categories }) => {
   return (
-    <div className="events-list">
+    <div className={styles.listContainer}>
       {events.map((event) => {
         const category = categories.find(cat => cat._id === event.categories);
-
         return (
-          <div key={event._id} className="event-card">
+          <div key={event._id} className={styles.eventCard}>
             <div className="event-header">
               <h3>{event.name}</h3>
               {event.avatar && (
@@ -30,14 +29,13 @@ const EventList = ({ events, onEdit, categories }) => {
 
               {event.images.length > 0 && (
                 <div className="event-images">
-                  <div className="images-grid">
+                  <div className={styles.imageContainer}>
                     {event.images.map((url, index) => (
                       <div key={index} className="image-container">
                         <img
                           src={url}
                           alt={`Ảnh sự kiện ${index + 1}`}
-                          className="event-image"
-                          style={{ height: 100, width: 200, objectFit: 'cover' }}
+                          className={styles.eventImage}
                         />
                       </div>
                     ))}
@@ -54,7 +52,7 @@ const EventList = ({ events, onEdit, categories }) => {
 
               <button
                 onClick={() => onEdit(event)}
-                className="edit-button"
+                className={styles.editButton}
               >
                 Chỉnh sửa
               </button>

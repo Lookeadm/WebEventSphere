@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
-
+import styles from '../../styles/ImageUploader.module.css';
 const ImageUploader = ({ images, setImages }) => {
   const [loading, setLoading] = useState(false);
 
@@ -50,9 +50,10 @@ const handleFileChange = async (e) => {
   return (
     <div className="image-uploader">
       <div className="upload-section">
-        <label className="upload-label">
+        <label className={styles.uploadLabel}>
           Thêm hình ảnh:
-          <input
+        </label>
+        <input
             type="file"
             accept="image/*"
             onChange={handleFileChange}
@@ -60,8 +61,7 @@ const handleFileChange = async (e) => {
             multiple
             className="file-input"
           />
-        </label>
-        {loading && <p className="loading-text">Đang tải ảnh lên...</p>}
+        {loading && <p className={"loading-text"}>Đang tải ảnh lên...</p>}
       </div>
 
       <div className="images-preview">

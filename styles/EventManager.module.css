@@ -1,0 +1,12 @@
+.eventManager {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+}
+
+.eventManagerTitle {
+    font-family: Arial, Helvetica, sans-serif;
+}

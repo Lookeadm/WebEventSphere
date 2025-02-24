@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import ImageUploader from './ImageUploader';
-import CategorySelector from './CategorySelector';
-import MapComponent from './MapComponent';
+import React, { useState } from "react";
+import ImageUploader from "./ImageUploader";
+import CategorySelector from "./CategorySelector";
+import MapComponent from "./MapComponent";
+import styles from "../../styles/EventFrom.module.css"
 
 const EventForm = ({ formData, handleInputChange, addEvent, isEditing, categories }) => {
   const handleSubmit = (e) => {
@@ -13,12 +14,16 @@ const EventForm = ({ formData, handleInputChange, addEvent, isEditing, categorie
 
   const updateImages = (newImages) => {
     setPicUrl(newImages);
-    handleInputChange({ target: { name: 'images', value: newImages } });
+    handleInputChange({ target: { name: "images", value: newImages } });
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form 
+      onSubmit={handleSubmit} 
+      className={styles.formContainer}
+    >
       <div>
+        <label className={styles.label}>Tên sự kiện</label>
         <input
           type="text"
           name="name"
@@ -26,18 +31,24 @@ const EventForm = ({ formData, handleInputChange, addEvent, isEditing, categorie
           onChange={handleInputChange}
           placeholder="Nhập tên sự kiện"
           required
+          className={styles.inputField}
         />
       </div>
+
       <div>
+        <label className={styles.label}>Mô tả sự kiện</label>
         <textarea
           name="description"
           value={formData.description}
           onChange={handleInputChange}
           placeholder="Mô tả sự kiện"
           required
+          className={styles.textarea}
         />
       </div>
+
       <div>
+        <label className={styles.label}>Giá vé & Số lượng vé</label>
         <input
           type="number"
           name="ticketPrice"
@@ -45,6 +56,7 @@ const EventForm = ({ formData, handleInputChange, addEvent, isEditing, categorie
           onChange={handleInputChange}
           placeholder="Nhập giá vé"
           required
+          className={styles.inputField}
         />
         <input
           type="number"
@@ -53,41 +65,45 @@ const EventForm = ({ formData, handleInputChange, addEvent, isEditing, categorie
           onChange={handleInputChange}
           placeholder="Nhập số lượng vé"
           required
+          className={styles.inputField}
         />
       </div>
+
       <div>
-        <label>Thời gian bắt đầu:</label>
+        <label className={styles.label}>Thời gian bắt đầu</label>
         <input
           type="datetime-local"
           name="timeStart"
           value={formData.timeStart ? new Date(formData.timeStart).toISOString().slice(0, 16) : ""}
           onChange={handleInputChange}
           required
+          className={styles.inputField}
         />
       </div>
+
       <div>
-        <label>Thời gian kết thúc:</label>
+        <label className={styles.label}>Thời gian kết thúc</label>
         <input
           type="datetime-local"
           name="timeEnd"
           value={formData.timeEnd ? new Date(formData.timeEnd).toISOString().slice(0, 16) : ""}
           onChange={handleInputChange}
           required
+          className={styles.inputField}
         />
       </div>
 
       <ImageUploader images={picUrl} setImages={updateImages} />
-
       <MapComponent />
 
       <CategorySelector
         selectedCategory={formData.selectedCategory}
-        setSelectedCategory={(category) => handleInputChange({ target: { name: 'selectedCategory', value: category } })}
+        setSelectedCategory={(category) => handleInputChange({ target: { name: "selectedCategory", value: category } })}
         categories={categories}
       />
 
-      <button type="submit" className="submit-button">
-        {isEditing ? 'Cập nhật sự kiện' : 'Thêm sự kiện mới'}
+      <button type="submit" className={styles.button}>
+        {isEditing ? "Cập nhật sự kiện" : "Thêm sự kiện mới"}
       </button>
     </form>
   );

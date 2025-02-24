@@ -1,0 +1,52 @@
+.listContainer {
+    width: 100%;
+    height: auto;
+    margin-top: 10;
+}
+
+.eventCard {
+    margin: 20 0;
+    padding: 10;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: white;
+    border-radius: 10;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.eventCard:hover {
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.imageContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 10;
+}
+
+.eventImage {
+    height:200;
+    width: 400;
+    object-fit: cover;
+    border-radius: 5;
+}
+
+.editButton {
+    min-Width: 15%;
+    padding: 12px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    background: linear-gradient(90deg, #5669FF, #15f1f5);
+    color: white;
+    transition: opacity 0.3s ease;
+}
+
+.editButton:hover {
+    opacity: 0.8;
+}
