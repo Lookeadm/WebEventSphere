@@ -13,7 +13,7 @@
     "@goongmaps/goong-js": "^1.0.9",
     "@goongmaps/goong-map-react": "^1.1.2",
     "axios": "^1.7.9",
-    "next": "15.1.6",
+    "next": "^15.1.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

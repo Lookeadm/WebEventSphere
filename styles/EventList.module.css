@@ -1,7 +1,9 @@
 .listContainer {
-    width: 100%;
+    width: 98%;
     height: auto;
     margin-top: 10;
+    flex-direction: column;
+    
 }
 
 .eventCard {
