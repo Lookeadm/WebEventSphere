@@ -16,6 +16,7 @@ export default function EventManager() {
     ticketPrice: '',
     ticketQuantity: '',
     selectedCategory: '',
+    location: '',
   });
   const [categories, setCategories] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
@@ -36,6 +37,7 @@ export default function EventManager() {
       }
 
       const eventsData = await eventsRes.json();
+      console.log("Dữ liệu sự kiện từ API:", eventsData);
       const categoriesData = await categoriesRes.json();
 
       setEvents(eventsData.data);
@@ -57,63 +59,63 @@ export default function EventManager() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
   // Trong hàm addEvent
-const addEvent = async () => {
-  setIsLoading(true);
-  setError(null);
-  try {
+  const addEvent = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
       const eventData = {
-          ...formData,
-          timeStart: new Date(formData.timeStart).getTime(),
-          timeEnd: new Date(formData.timeEnd).getTime(),
-          ticketPrice: Number(formData.ticketPrice),
-          ticketQuantity: Number(formData.ticketQuantity),
-          categories: formData.selectedCategory,
-          images: formData.images || [],
-          id: isEditing ? formData.id : undefined
+        ...formData,
+        timeStart: new Date(formData.timeStart).getTime(),
+        timeEnd: new Date(formData.timeEnd).getTime(),
+        ticketPrice: Number(formData.ticketPrice),
+        ticketQuantity: Number(formData.ticketQuantity),
+        categories: formData.selectedCategory,
+        images: formData.images || [],
+        id: isEditing ? formData.id : undefined,
+        location: formData.location,
       };
 
       const response = await fetch('/api/eventsApi', {
-          method: isEditing ? 'PUT' : 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(eventData),
+        method: isEditing ? 'PUT' : 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(eventData),
       });
 
       const data = await response.json();
       if (!response.ok) throw new Error(data.message);
 
       setFormData({
-          id: '', name: '', description: '', timeStart: '', timeEnd: '',
-          avatar: '', banner: '', images: [], ticketPrice: '',
-          ticketQuantity: '', selectedCategory: '',
+        id: '', name: '', description: '', timeStart: '', timeEnd: '',
+        avatar: '', banner: '', images: [], ticketPrice: '',
+        ticketQuantity: '', selectedCategory: '', location: '',
       });
       setIsEditing(false);
       fetchData();
 
-  } catch (error) {
+    } catch (error) {
       setError(error.message || 'Lỗi khi lưu sự kiện');
-  } finally {
+    } finally {
       setIsLoading(false);
-  }
-};
-
+    }
+  };
 
   const handleEdit = (event) => {
-    console.log("Even: "+event)
     setIsEditing(true);
     setFormData({
-        id: event.id,
-        name: event.name,
-        description: event.description,
-        timeStart: new Date(Number(event.timeStart)).toISOString().slice(0, 16),
-        timeEnd: new Date(Number(event.timeEnd)).toISOString().slice(0, 16),
-        avatar: event.avatar || '',
-        banner: event.banner || '',
-        images: Array.isArray(event.images) ? event.images : [],
-        ticketPrice: event.ticketPrice,
-        ticketQuantity: event.ticketQuantity,
-        selectedCategory: event.categories,
+      id: event._id,
+      name: event.name,
+      description: event.description,
+      timeStart: new Date(Number(event.timeStart)).toISOString().slice(0, 16),
+      timeEnd: new Date(Number(event.timeEnd)).toISOString().slice(0, 16),
+      avatar: event.avatar || '',
+      banner: event.banner || '',
+      images: event.images,
+      ticketPrice: event.ticketPrice,
+      ticketQuantity: event.ticketQuantity,
+      selectedCategory: event.categories,
+      location: event.location
     });
-};
+  };
 
   return (
     <div className={styles.eventManager}>

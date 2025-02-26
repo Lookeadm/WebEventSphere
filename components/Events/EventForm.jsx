@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ImageUploader from "./ImageUploader";
 import CategorySelector from "./CategorySelector";
 import MapComponent from "./MapComponent";
@@ -11,15 +11,23 @@ const EventForm = ({ formData, handleInputChange, addEvent, isEditing, categorie
   };
 
   const [picUrl, setPicUrl] = useState(formData.images || []);
+  const [avatar, setAvatar] = useState(formData.avatar || "");
 
   const updateImages = (newImages) => {
     setPicUrl(newImages);
     handleInputChange({ target: { name: "images", value: newImages } });
   };
-
+  const updateAvatar = (newImages) => {
+    setAvatar(newImages);
+    handleInputChange({ target: { name: "avatar", value: newImages } });
+  };
+  useEffect(() => {
+    setPicUrl(formData.images || []);
+    setAvatar(formData.avatar || "");
+  }, [formData.images]);
   return (
-    <form 
-      onSubmit={handleSubmit} 
+    <form
+      onSubmit={handleSubmit}
       className={styles.formContainer}
     >
       <div>
@@ -44,6 +52,19 @@ const EventForm = ({ formData, handleInputChange, addEvent, isEditing, categorie
           placeholder="Mô tả sự kiện"
           required
           className={styles.textarea}
+        />
+      </div>
+
+      <div>
+        <label className={styles.label}>Địa điểm</label>
+        <input
+          type="text"
+          name="location"
+          value={formData.location}
+          onChange={handleInputChange}
+          placeholder="Nhập địa điểm"
+          required
+          className={styles.inputField}
         />
       </div>
 
@@ -92,9 +113,7 @@ const EventForm = ({ formData, handleInputChange, addEvent, isEditing, categorie
           className={styles.inputField}
         />
       </div>
-
-      <ImageUploader images={picUrl} setImages={updateImages} />
-      <MapComponent />
+      <ImageUploader images={picUrl} setImages={updateImages} setAvatar={updateAvatar} avatar={avatar} />
 
       <CategorySelector
         selectedCategory={formData.selectedCategory}
