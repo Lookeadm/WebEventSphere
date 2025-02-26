@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import styles from '../../styles/ImageUploader.module.css';
-const ImageUploader = ({ images, setImages }) => {
+const ImageUploader = ({ images, setImages, avatar, setAvatar}) => {
   const [loading, setLoading] = useState(false);
 
   const uploadToCloudinary = async (file) => {
@@ -43,12 +43,64 @@ const handleFileChange = async (e) => {
     }
 };
 
+const handleAvatarChange = async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  setLoading(true);
+  try {
+    const uploadedUrl = await uploadToCloudinary(file);
+    setAvatar(uploadedUrl);
+  } catch (error) {
+    alert(error.message || 'Lỗi khi tải ảnh lên');
+  } finally {
+    setLoading(false);
+    e.target.value = '';
+  }
+};
+
   const handleRemoveImage = (indexToRemove) => {
     setImages(prev => prev.filter((_, index) => index !== indexToRemove));
   };
 
   return (
     <div className="image-uploader">
+      
+      <div className="upload-section">
+        <label className={styles.uploadLabel}>
+          Thêm poster:
+        </label>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleAvatarChange}
+          disabled={loading}
+          className="file-input"
+        />
+        {loading && <p className={"loading-text"}>Đang tải ảnh lên...</p>}
+      </div>
+      <div className="images-preview">
+        {avatar ? (
+          <div className="images-grid">
+              <div className="image-item">
+                <img
+                  src={avatar}
+                  className="preview-image"
+                />
+                <button
+                  type="button"
+                  onClick={() => setAvatar(null)}
+                  className="remove-button"
+                >
+                  ✖
+                </button>
+              </div>
+          </div>
+        ) : (
+          <p className="no-images">Chưa có hình ảnh nào được tải lên.</p>
+        )}
+      </div>
+
       <div className="upload-section">
         <label className={styles.uploadLabel}>
           Thêm hình ảnh:

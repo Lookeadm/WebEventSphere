@@ -21,6 +21,7 @@ const EventList = ({ events, onEdit, categories }) => {
 
             <div className="event-content">
               <p className="event-description">{event.description}</p>
+              <p className="event-content">{event.location}</p>
               <p className="event-time">
                 Từ: {new Date(Number(event.timeStart)).toLocaleString('vi-VN')}
                 <br />
