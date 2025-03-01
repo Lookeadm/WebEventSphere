@@ -1,7 +1,7 @@
-'use client'; // 🛠 Khai báo đây là Client Component
-
+'use client';
 import Link from 'next/link';
 import { useState } from 'react';
+
 
 export default function Home() {
   const [buttonStyle, setButtonStyle] = useState({
@@ -55,7 +55,7 @@ export default function Home() {
       }}>
         Chào mừng bạn đến với EventSphere - Nơi tổ chức sự kiện trở nên dễ dàng hơn!
       </p>
-      <Link href="/ManagerScreen">
+      <Link href="/LoginScreen">
         <button
           style={buttonStyle}
           onMouseEnter={handleMouseEnter}
@@ -65,6 +65,7 @@ export default function Home() {
           Đi đến Event Manager
         </button>
       </Link>
+     
     </div>
   );
 }

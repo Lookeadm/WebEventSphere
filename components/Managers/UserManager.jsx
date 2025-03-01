@@ -46,7 +46,7 @@ export default function UserManager() {
             <div className={styles.managerTitle}>
                 <h2>Quản lý người dùng</h2>
             </div>
-            <div>
+            <div className={styles.tableTitle}>
                 <h3>
                     Danh sách người dùng
                 </h3>
@@ -84,10 +84,10 @@ export default function UserManager() {
                 <div className={styles.paginationContainer}>
                     <div>
                         <button onClick={handlePreviousPage} className={styles.paginationButtons}>
-                            Prev
+                            <img src="/assets/arrow-narrow-left.svg" alt="" />
                         </button>
                         <button onClick={handleNextPage} className={styles.paginationButtons}>
-                            Next
+                            <img src="/assets/arrow-narrow-right.svg"  alt="" />
                         </button>
                     </div>
                     <div className={styles.numberOfPages}>

@@ -1,0 +1,32 @@
+.eventManager {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+}
+
+.eventManagerTitle {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.backButton {
+    width: 100;
+    height: 50;
+    position: fixed;
+    top: 20;
+    left: 20;
+    border-radius: 10;
+    border: none;
+    background-color: #52B788;
+    z-index: 99;
+}
+
+.backButton:hover {
+    cursor: pointer;
+    background-color: #40916C;
+    transition: 0.2s ease-out;
+    transform: scale(1.1);
+    
+}

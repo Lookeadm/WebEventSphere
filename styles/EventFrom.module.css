@@ -19,9 +19,9 @@
 }
 
 .inputField:focus {
-    border-color: #5669FF;
+    border-color: #40916C;
     outline: none;
-    box-shadow: 0px 0px 5px rgba(86, 105, 255, 0.5);
+    box-shadow: 0px 0px 5px #40916C;
 }
 
 .textarea {
@@ -36,9 +36,9 @@
 }
 
 .textarea:focus {
-    border-color: #15f1f5;
+    border-color: #40916C;
     outline: none;
-    box-shadow: 0px 0px 5px rgba(21, 241, 245, 0.5);
+    box-shadow: 0px 0px 5px #40916C;
 }
 
 .label {
@@ -58,11 +58,12 @@
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    background: linear-gradient(90deg, #5669FF, #15f1f5);
+    background: #52B788;
     color: white;
-    transition: opacity 0.3s ease;
+    transition: 0.2s ease;
 }
 
 .button:hover {
-    opacity: 0.8;
+    transition: 0.2s ease;
+    background-color: #40916C ;
 }

@@ -30,7 +30,7 @@
 
 .eventImage {
     height:200;
-    width: 400;
+    width: 100%;
     object-fit: cover;
     border-radius: 5;
 }
@@ -44,11 +44,12 @@
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    background: linear-gradient(90deg, #5669FF, #15f1f5);
+    background: #52B788;
     color: white;
-    transition: opacity 0.3s ease;
+    transition: 0.2s ease;
 }
 
 .editButton:hover {
-    opacity: 0.8;
+    transition: 0.2s ease;
+    background-color: #40916C ;
 }

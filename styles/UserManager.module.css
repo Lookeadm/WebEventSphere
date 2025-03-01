@@ -1,17 +1,25 @@
 .managerContainer {
     display: flex;
     flex-direction: column;
-    width: calc(100% - 5px);
-    height: 100%;
-    background-color: #f4f4f4;
-    margin-left: 5;
+    width: 100%;
+    height: 100%;   
+    padding: 0px 10px;
+    box-sizing: border-box;
+    background-color: white;
+    border-radius: 15px 0px 0px 15px;
+    
 }
 
 .managerTitle {
     display: flex;
     justify-content: center;
     width: 100%;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+}
+
+.tableTitle {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .table {
@@ -19,21 +27,23 @@
     border-collapse: collapse;
     width: 100%;
     height: 100%;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: white;
+    
 }
 
 
-
 .table th, .table td {
-    padding: 12px;
+    padding: 11px;
     border-bottom: 0.5px rgb(211, 211, 211) solid;
     width: 20%;
     text-align: center;
 }
 
 .table th {
-    background: #5669FF;
+    background: #B7E4C7  ;
     font-size: 18;
+    color: #555555 
 }
 
 .table tr {
@@ -42,11 +52,11 @@
 
 .table tr:hover {
     transition: 0.2s ease;
-    background-color: #e9e9e9;
+    background-color: #E9F5EE ;
 }
 
 .detailButton {
-    background-color: #5669FF;
+    background-color: #52B788 ;
     color: white;
     border: none;
     padding: 8px 15px;
@@ -56,7 +66,7 @@
 
 .detailButton:hover {
     transition: 0.2s ease;
-    background-color: #2740fc;
+    background-color: #40916C ;
 }
 
 .emptyRow td {
@@ -74,22 +84,21 @@
 
 .paginationButtons {
     margin: 0 10px;
-    width: 100;
+    width: 50;
     height: 30;
     border-radius: 10;
     border: none;
-    background-color: #5669FF;
-    color: white;
+    background-color: white;  
 }
 
 .paginationButtons:hover {
     transition: 0.2s ease;
-    background-color: #2740fc;
+    background-color: rgb(240, 240, 240) ;
     cursor: pointer;
 }
 
 .numberOfPages {
     margin-top: 10px;
     font-size: 18px;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }

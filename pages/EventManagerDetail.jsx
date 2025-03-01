@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import Link from "next/link";
 import EventForm from '@/components/Events/EventForm';
 import EventList from '@/components/Events/EventList';
-import styles from '../styles/EventManager.module.css';
+import styles from '../styles/EventManagerDetail.module.css';
 export default function EventManager() {
   const [events, setEvents] = useState([]);
   const [formData, setFormData] = useState({
@@ -22,6 +23,25 @@ export default function EventManager() {
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [opacity, setOpacity] = useState(1);
+  const [isHovered, setIsHovered] = useState(false);
+  const scrollThreshold = 960;
+
+  useEffect(() => {
+    const handleScroll = () => {
+        if (!isHovered) {
+            const scrollY = window.scrollY;
+            if (scrollY < scrollThreshold) {
+                setOpacity(1);
+            } else {
+                setOpacity(Math.max(1 - (scrollY - scrollThreshold) / 300, 0.2));
+            }
+        }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+}, [isHovered]);
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -120,7 +140,16 @@ export default function EventManager() {
   return (
     <div className={styles.eventManager}>
       <h2 className={styles.eventManagerTitle}>Quản lý Sự kiện</h2>
-
+      <Link href="/ManagerScreen">
+      <button 
+        className={styles.backButton} 
+        style={{ opacity }}
+        onMouseEnter={() => setIsHovered(true) || setOpacity(1)}
+        onMouseLeave={() => setIsHovered(false)}
+        >
+          <img src="/assets/arrow-narrow-left.svg" alt="" />
+      </button>
+      </Link>
       {error && <div className="error-message">{error}</div>}
 
       <EventForm
