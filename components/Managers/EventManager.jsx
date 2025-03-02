@@ -1,8 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from '../../styles/EventManager.module.css'
 import { useState } from 'react';
 import Link from 'next/link';
-
 
 const events = [
     { name: "Nguyen Tien Si", images: "/images/penguine.png", ticketCost: "120.000 VND", ticketCount: 1000 },
@@ -13,8 +12,9 @@ const events = [
     { name: "Nam Nguyễn", images: "/images/penguine.png", ticketCost: "120.000 VND", ticketCount: 1000 },
     { name: "nam", images: "/images/penguine.png", ticketCost: "120.000 VND", ticketCount: 1000 },
     { name: "toanpt301ne", images: "/images/penguine.png", ticketCost: "120.000 VND", ticketCount: 1000 },
-    { name: "đạt", images:"/images/penguine.png", ticketCost: "120.000 VND", ticketCount: 1000},
+    { name: "đạt", images: "/images/penguine.png", ticketCost: "120.000 VND", ticketCount: 1000 },
 ];
+
 const userPerPage = 5;
 
 export default function EventManager() {
@@ -22,15 +22,29 @@ export default function EventManager() {
     const totalPages = Math.ceil(events.length / userPerPage);
     const startIndex = currentPage * userPerPage;
     const selectedevents = events.slice(startIndex, startIndex + userPerPage);
+    const [event, setEvent] = useState([]);
+
+    useEffect(() => {
+        const fetchEvent = async () => {
+            try {
+                const getEvent = await fetch('/api/eventsApi');
+                const eventsData = await getEvent.json();
+                setEvent(eventsData.data);
+            } catch (e) {
+                console.log("Lấy sự kiện thất bại", e)
+            }
+        }
+        fetchEvent();
+    }, [])
 
     const handlePreviousPage = () => {
-        if(currentPage > 0){
+        if (currentPage > 0) {
             setCurrentPage(currentPage - 1);
         }
     };
 
     const handleNextPage = () => {
-        if(currentPage < totalPages - 1){
+        if (currentPage < totalPages - 1) {
             setCurrentPage(currentPage + 1);
         }
     };
@@ -42,7 +56,7 @@ export default function EventManager() {
             emptyRows.push(i);
         }
     }
-  return (
+    return (
         <div className={styles.managerContainer}>
             <div className={styles.managerTitle}>
                 <h2>Quản lý sự kiện</h2>
@@ -63,14 +77,14 @@ export default function EventManager() {
                     </tr>
                 </thead>
                 <tbody>
-                    {selectedevents.map((user, index) => (
+                    {event.map((event, index) => (
                         <tr key={index}>
-                            <td>{user.name}</td>
+                            <td>{event.name}</td>
                             <td>
-                                <img src={user.images} alt="" className={styles.eventImages} />
+                                <img src={event.avatar} alt="" className={styles.eventImages} />
                             </td>
-                            <td>{user.ticketCost}</td>
-                            <td>{user.ticketCount}</td>
+                            <td>{event.ticketPrice}</td>
+                            <td>{event.ticketQuantity}</td>
                             <td>
                                 <Link href='/EventManagerDetail'>
                                     <button className={styles.detailButton}>Chi tiết</button>
@@ -89,20 +103,20 @@ export default function EventManager() {
                     ))}
                 </tbody>
             </table>
-                <div className={styles.paginationContainer}>
-                    <div>
+            <div className={styles.paginationContainer}>
+                <div>
                     <button onClick={handlePreviousPage} className={styles.paginationButtons}>
-                            <img src="/assets/arrow-narrow-left.svg" alt="" />
-                        </button>
-                        <button onClick={handleNextPage} className={styles.paginationButtons}>
-                            <img src="/assets/arrow-narrow-right.svg"  alt="" />
-                        </button>
-                    </div>
-                    <div className={styles.numberOfPages}>
-                        <span>Page {currentPage + 1} of {totalPages}</span>
-                    </div>
+                        <img src="/assets/arrow-narrow-left.svg" alt="" />
+                    </button>
+                    <button onClick={handleNextPage} className={styles.paginationButtons}>
+                        <img src="/assets/arrow-narrow-right.svg" alt="" />
+                    </button>
                 </div>
+                <div className={styles.numberOfPages}>
+                    <span>Page {currentPage + 1} of {totalPages}</span>
+                </div>
+            </div>
         </div>
-   
-  )
+
+    )
 }
