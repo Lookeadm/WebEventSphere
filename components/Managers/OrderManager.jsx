@@ -10,6 +10,9 @@ export default function OrderManager() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [sortOrder, setSortOrder] = useState('desc');
+    const [totalOrder, setTotalOrder] = useState(0);
+    const [totalOrderPaid, setTotalOrderPaid] = useState(0);
+    const [totalCancelOrder, setTotalCancelOrder] = useState(0);
 
     useEffect(() => {
         const fetchOrder = async () => {
@@ -28,6 +31,24 @@ export default function OrderManager() {
         fetchOrder();
     }, []);
 
+    useEffect(() => {
+        setTotalOrder(orders.length);
+        let paidCount = 0;
+        let cancelCount = 0;
+
+        orders.forEach(order => {
+            if (order.status === "paid") {
+                paidCount++;
+            }
+            if (order.status === "cancel") {
+                cancelCount++;
+            }
+        });
+
+        setTotalOrderPaid(paidCount);
+        setTotalCancelOrder(cancelCount);
+    }, [orders]);
+
     const handleSortByDate = () => {
         setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
         setCurrentPage(0);
@@ -40,8 +61,6 @@ export default function OrderManager() {
             return new Date(b.createdAt) - new Date(a.createdAt);
         }
     });
-
-
 
     const totalPages = Math.ceil(sortedOrders.length / userPerPage);
     const startIndex = currentPage * userPerPage;
@@ -151,17 +170,17 @@ export default function OrderManager() {
                                 <span className={styles.dashboardTitle}>Tổng quan</span>
                                 <div className={styles.dashboardItem}>
                                     <span className={styles.dashboardItemTitle}>Tổng đơn hàng</span>
-                                    <span className={styles.dashboardItemCount}>123</span>
+                                    <span className={styles.dashboardItemCount}>{totalOrder}</span>
                                 </div>
 
                                 <div className={styles.dashboardItem}>
                                     <span className={styles.dashboardItemTitle}>Đã xác nhận</span>
-                                    <span className={styles.dashboardItemCount}>256</span>
+                                    <span className={styles.dashboardItemCount}>{totalOrderPaid}</span>
                                 </div>
 
                                 <div className={styles.dashboardItem}>
                                     <span className={styles.dashboardItemTitle}>Đã hủy</span>
-                                    <span className={styles.dashboardItemCount}>15</span>
+                                    <span className={styles.dashboardItemCount}>{totalCancelOrder}</span>
                                 </div>
                             </div>
                     </div>
