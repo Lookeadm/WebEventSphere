@@ -122,7 +122,7 @@ export default function StatisticManager() {
                 <div className={styles.bar}
                   style={{ height: `${Math.max(barHeight, 1)}%` }}
                 >
-                  <span className={styles.barLabel}>{event.revenue}tr</span>
+                  <span className={styles.barLabel}>{event.revenue} VND</span>
                 </div>
                 <span className={styles.eventName}>{event.name}</span>
               </div>
@@ -141,7 +141,7 @@ export default function StatisticManager() {
                 <div className={styles.bar}
                   style={{ height: `${Math.max(barHeight, 1)}%` }}
                 >
-                  <span className={styles.barLabel}>{event.revenue}tr</span>
+                  <span className={styles.barLabel}>{event.revenue} VND</span>
                 </div>
                 <span className={styles.eventName}>{event.name}</span>
               </div>

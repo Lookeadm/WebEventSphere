@@ -7,11 +7,9 @@ const users = [
     { name: "Nguyen Tien Si", email: "titiensibo2706@gmail.com", phone: "0979723641" },
     { name: "trungnguyen", email: "trungnguyenk4.it@gmail.com", phone: "0945691404" },
     { name: "toan", email: "thanhtoan123@gmail.com", phone: "0945691421" },
-    { name: "si đẹp trai hehehe", email: "titiensibo2706@gmail.com", phone: "0979723641" },
     { name: "dat", email: "datn3460@gmail.com", phone: "0345618563" },
     { name: "Nam Nguyễn", email: "namnnps38713@gmail.com", phone: "0399092212" },
     { name: "nam", email: "namnn51204@gmail.com", phone: "0390922121" },
-    { name: "toanpt301ne", email: "phamthanhtoan301bt@gmail.com", phone: "0349535063" },
     { name: "đạt", email: "datn34886@gmail.com", phone: "09231245781" },
 ];
 const userPerPage = 8;
@@ -91,7 +89,7 @@ export default function UserManager() {
                         </th>
                         <th>Email</th>
                         <th>Số điện thoại</th>
-                        <th>Sự kiện</th>
+                        <th>Chi tiết</th>
                     </tr>
                 </thead>
                 <tbody>

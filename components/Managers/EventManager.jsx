@@ -52,7 +52,6 @@ export default function EventManager() {
 
     const sortedEvents = [...event].sort((a, b) => {
         let compare = 0;
-
         if (sortColumn === 'name') {
             compare = a.name.localeCompare(b.name, 'vi');
         } else if (sortColumn === 'ticketCount') {
@@ -62,24 +61,27 @@ export default function EventManager() {
             const priceB = parseInt(String(b.ticketPrice).replace(/[^\d]/g, ''), 10) || 0;
             compare = priceA - priceB;
         }
-
         return sortEvent === 'asc' ? compare : -compare;
     });
 
-    
     const totalPages = Math.ceil(event.length / eventPerPage);
     const startIndex = currentPage * eventPerPage;
     const paginatedEvents = sortedEvents.slice(startIndex, startIndex + eventPerPage);
-
     const emptyRows = Array(eventPerPage - paginatedEvents.length).fill(null);
 
     return (
         <div className={styles.managerContainer}>
             <div className={styles.managerTitle}>
                 <h2>Quản lý sự kiện</h2>
+                
             </div>
             <div className={styles.tableTitle}>
                 <h3>Danh sách sự kiện</h3>
+                <Link href={'/EventManagerDetail'}>
+                <button className={styles.addEventButton}>
+                    Thêm sự kiện 
+                </button>
+                </Link>
             </div>
 
             <table className={styles.table}>
