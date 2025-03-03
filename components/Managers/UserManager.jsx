@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from '../../styles/UserManager.module.css'
 import { useState } from 'react';
-
+import AxiosInstance from '../../pages/api/AxiosInstance';
 
 const users = [
     { name: "Nguyen Tien Si", email: "titiensibo2706@gmail.com", phone: "0979723641" },
@@ -19,34 +19,48 @@ const userPerPage = 8;
 export default function UserManager() {
     const [currentPage, setCurrentPage] = useState(0);
     const [sortUser, setSortUser] = useState('asc');
+    const [user, setUser] = useState([]);
+    
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const userData = await AxiosInstance().get('users/all');
+                setUser(userData.data);
+            } catch (e) {
+                console.log("Lấy người dùng thất bại: " + e);
+            }
+        }
+        fetchUser();
+    }, []);
 
     const handleSortByName = () => {
         setSortUser(sortUser === 'asc' ? 'desc' : 'asc');
         setCurrentPage(0);
     };
 
-    const sortedUsers = [...users].sort((a,b)=>{
-        if(sortUser === 'asc'){
+    const sortedUsers = [...users].sort((a, b) => {
+        if (sortUser === 'asc') {
             return a.name.localeCompare(b.name, 'vi');
         } else {
             return b.name.localeCompare(a.name, 'vi');
         }
     })
-    
+
     const totalPages = Math.ceil(sortedUsers.length / userPerPage);
 
     const startIndex = currentPage * userPerPage;
 
-    const paginatedUsers  = sortedUsers.slice(startIndex, startIndex + userPerPage);
+    const paginatedUsers = sortedUsers.slice(startIndex, startIndex + userPerPage);
 
     const handlePreviousPage = () => {
-        if(currentPage > 0){
+        if (currentPage > 0) {
             setCurrentPage(currentPage - 1);
         }
     };
 
     const handleNextPage = () => {
-        if(currentPage < totalPages - 1){
+        if (currentPage < totalPages - 1) {
             setCurrentPage(currentPage + 1);
         }
     };
@@ -59,7 +73,7 @@ export default function UserManager() {
         }
     }
 
-  return (
+    return (
         <div className={styles.managerContainer}>
             <div className={styles.managerTitle}>
                 <h2>Quản lý người dùng</h2>
@@ -101,20 +115,20 @@ export default function UserManager() {
                     ))}
                 </tbody>
             </table>
-                <div className={styles.paginationContainer}>
-                    <div>
-                        <button onClick={handlePreviousPage} className={styles.paginationButtons}>
-                            <img src="/assets/arrow-narrow-left.svg" alt="" />
-                        </button>
-                        <button onClick={handleNextPage} className={styles.paginationButtons}>
-                            <img src="/assets/arrow-narrow-right.svg"  alt="" />
-                        </button>
-                    </div>
-                    <div className={styles.numberOfPages}>
-                        <span>Page {currentPage + 1} of {totalPages}</span>
-                    </div>
+            <div className={styles.paginationContainer}>
+                <div>
+                    <button onClick={handlePreviousPage} className={styles.paginationButtons}>
+                        <img src="/assets/arrow-narrow-left.svg" alt="" />
+                    </button>
+                    <button onClick={handleNextPage} className={styles.paginationButtons}>
+                        <img src="/assets/arrow-narrow-right.svg" alt="" />
+                    </button>
                 </div>
+                <div className={styles.numberOfPages}>
+                    <span>Trang {currentPage + 1} / {totalPages}</span>
+                </div>
+            </div>
         </div>
-   
-  )
+
+    )
 }

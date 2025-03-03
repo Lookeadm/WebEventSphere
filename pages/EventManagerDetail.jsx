@@ -3,6 +3,8 @@ import Link from "next/link";
 import EventForm from '@/components/Events/EventForm';
 import EventList from '@/components/Events/EventList';
 import styles from '../styles/EventManagerDetail.module.css';
+import { useRouter } from 'next/router';
+
 export default function EventManager() {
   const [events, setEvents] = useState([]);
   const [formData, setFormData] = useState({
@@ -26,6 +28,8 @@ export default function EventManager() {
   const [opacity, setOpacity] = useState(1);
   const [isHovered, setIsHovered] = useState(false);
   const scrollThreshold = 960;
+  const router = useRouter();
+  const { id } = router.query;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -57,11 +61,19 @@ export default function EventManager() {
       }
 
       const eventsData = await eventsRes.json();
-      console.log("Dữ liệu sự kiện từ API:", eventsData);
       const categoriesData = await categoriesRes.json();
 
       setEvents(eventsData.data);
       setCategories(categoriesData.data);
+
+      if (id) {
+        const eventRes = await fetch(`https://gamesphereapi.onrender.com/events/detail/${id}`); // Gọi API để lấy sự kiện theo ID
+        if (!eventRes.ok) {
+            throw new Error('Không tìm thấy sự kiện với ID này');
+        }
+        const eventData = await eventRes.json();
+        setEvents([eventData.data]); // Chỉ hiển thị sự kiện tương ứng
+    }
     } catch (e) {
       setError('Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.');
       console.error("Lỗi khi gọi API:", e);
@@ -72,7 +84,7 @@ export default function EventManager() {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [id]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

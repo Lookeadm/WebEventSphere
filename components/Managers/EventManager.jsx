@@ -49,7 +49,7 @@ export default function EventManager() {
         return <img className={styles.sortIcon} src={iconSrc} />;
     };
 
-    // Sắp xếp danh sách sự kiện
+
     const sortedEvents = [...event].sort((a, b) => {
         let compare = 0;
 
@@ -108,7 +108,7 @@ export default function EventManager() {
                             <td>{event.ticketPrice}</td>
                             <td>{event.ticketQuantity}</td>
                             <td>
-                                <Link href="/EventManagerDetail">
+                                <Link href={`/EventManagerDetail?id=${event._id}`}>
                                     <button className={styles.detailButton}>Chi tiết</button>
                                 </Link>
                             </td>
@@ -132,7 +132,7 @@ export default function EventManager() {
                     </button>
                 </div>
                 <div className={styles.numberOfPages}>
-                    <span>Page {currentPage + 1} of {totalPages}</span>
+                    <span>Trang {currentPage + 1} /  {totalPages}</span>
                 </div>
             </div>
         </div>
