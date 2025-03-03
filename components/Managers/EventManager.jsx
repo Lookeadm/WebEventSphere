@@ -80,8 +80,8 @@ export default function EventManager() {
     });
 
     const filteredEvents = filterStatus
-        ? event.filter(event => getEventStatus(event) === filterStatus)
-        : event;
+        ? sortedEvents.filter(event => getEventStatus(event) === filterStatus)
+        : sortedEvents;
 
     const totalPages = Math.ceil(filteredEvents.length / eventPerPage);
     const startIndex = currentPage * eventPerPage;
