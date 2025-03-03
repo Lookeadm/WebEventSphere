@@ -9,6 +9,7 @@ export default function EventManager() {
     const [event, setEvent] = useState([]);
     const [sortEvent, setSortEvent] = useState('asc');
     const [sortColumn, setSortColumn] = useState('name');
+    const [filterStatus, setFilterStatus] = useState('');
 
     useEffect(() => {
         const fetchEvent = async () => {
@@ -49,6 +50,20 @@ export default function EventManager() {
         return <img className={styles.sortIcon} src={iconSrc} />;
     };
 
+    const handleFilterChange = (status) => {
+        setFilterStatus(status);
+    };
+
+    const getEventStatus = (event) => {
+        const now = new Date();
+        if (new Date(event.timeEnd) < now) {
+            return 'Kết thúc';
+        } else if (new Date(event.timeStart) > now) {
+            return 'Sắp diễn ra';
+        } else {
+            return 'Đang diễn ra';
+        }
+    };
 
     const sortedEvents = [...event].sort((a, b) => {
         let compare = 0;
@@ -64,9 +79,13 @@ export default function EventManager() {
         return sortEvent === 'asc' ? compare : -compare;
     });
 
-    const totalPages = Math.ceil(event.length / eventPerPage);
+    const filteredEvents = filterStatus
+        ? event.filter(event => getEventStatus(event) === filterStatus)
+        : event;
+
+    const totalPages = Math.ceil(filteredEvents.length / eventPerPage);
     const startIndex = currentPage * eventPerPage;
-    const paginatedEvents = sortedEvents.slice(startIndex, startIndex + eventPerPage);
+    const paginatedEvents = filteredEvents.slice(startIndex, startIndex + eventPerPage);
     const emptyRows = Array(eventPerPage - paginatedEvents.length).fill(null);
 
     return (
@@ -84,6 +103,25 @@ export default function EventManager() {
                 </Link>
             </div>
 
+            <div>
+                <label>
+                    <input type="radio" name="status" value="" checked={!filterStatus} onChange={() => handleFilterChange('')} />
+                    Tất cả
+                </label>
+                <label>
+                    <input type="radio" name="status" value="Kết thúc" onChange={() => handleFilterChange('Kết thúc')} />
+                    Kết thúc
+                </label>
+                <label>
+                    <input type="radio" name="status" value="Đang diễn ra" onChange={() => handleFilterChange('Đang diễn ra')} />
+                    Đang diễn ra
+                </label>
+                <label>
+                    <input type="radio" name="status" value="Sắp diễn ra" onChange={() => handleFilterChange('Sắp diễn ra')} />
+                    Sắp diễn ra
+                </label>
+            </div>
+
             <table className={styles.table}>
                 <thead>
                     <tr>
@@ -97,25 +135,33 @@ export default function EventManager() {
                         <th onClick={() => handleSortByColumn('ticketCount')} className={styles.sortableHeader}>
                             Số lượng vé <SortIcon column="ticketCount" />
                         </th>
+                        <th>Trạng thái</th>
                         <th>Chi tiết</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {paginatedEvents.map((event, index) => (
-                        <tr key={index}>
-                            <td>{event.name}</td>
-                            <td>
-                                <img src={event.avatar} alt="" className={styles.eventImages} />
-                            </td>
-                            <td>{event.ticketPrice}</td>
-                            <td>{event.ticketQuantity}</td>
-                            <td>
-                                <Link href={`/EventManagerDetail?id=${event._id}`}>
-                                    <button className={styles.detailButton}>Chi tiết</button>
-                                </Link>
-                            </td>
+                    {paginatedEvents.length > 0 ? (
+                        paginatedEvents.map((event, index) => (
+                            <tr key={index}>
+                                <td>{event.name}</td>
+                                <td>
+                                    <img src={event.avatar} alt="" className={styles.eventImages} />
+                                </td>
+                                <td>{event.ticketPrice}</td>
+                                <td>{event.ticketQuantity}</td>
+                                <td>{getEventStatus(event)}</td>
+                                <td>
+                                    <Link href={`/EventManagerDetail?id=${event._id}`}>
+                                        <button className={styles.detailButton}>Chi tiết</button>
+                                    </Link>
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan={6}>Không có sự kiện nào để hiển thị.</td>
                         </tr>
-                    ))}
+                    )}
                     {emptyRows.map((_, index) => (
                         <tr key={`empty-${index}`} className={styles.emptyRow}>
                             <td colSpan={5}>&nbsp;</td>
