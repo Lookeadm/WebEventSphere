@@ -35,7 +35,7 @@
     padding: 12px;
     border-bottom: 0.5px rgb(211, 211, 211) solid;
     width: 20%;
-    text-align: center;
+    text-align: left;
 }
 
 .table th {
@@ -52,6 +52,7 @@
     transition: 0.2s ease;
     background-color: #E9F5EE;
 }
+
 
 .eventImages {
     width: 120;
