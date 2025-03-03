@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
-import api from './api/axiosClient'
+import api from './api/AxiosInstance'
 
 interface Category {
   id: string; // or string, depending on your API

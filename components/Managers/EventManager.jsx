@@ -108,7 +108,7 @@ export default function EventManager() {
                             <td>{event.ticketPrice}</td>
                             <td>{event.ticketQuantity}</td>
                             <td>
-                                <Link href="/EventManagerDetail">
+                                <Link href={`/EventManagerDetail?id=${event._id}`}>
                                     <button className={styles.detailButton}>Chi tiết</button>
                                 </Link>
                             </td>

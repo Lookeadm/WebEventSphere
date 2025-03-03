@@ -3,48 +3,34 @@ import styles from '../../styles/UserManager.module.css'
 import { useState } from 'react';
 import AxiosInstance from '../../pages/api/AxiosInstance';
 
-const users = [
-    { name: "Nguyen Tien Si", email: "titiensibo2706@gmail.com", phone: "0979723641" },
-    { name: "trungnguyen", email: "trungnguyenk4.it@gmail.com", phone: "0945691404" },
-    { name: "toan", email: "thanhtoan123@gmail.com", phone: "0945691421" },
-    { name: "si đẹp trai hehehe", email: "titiensibo2706@gmail.com", phone: "0979723641" },
-    { name: "dat", email: "datn3460@gmail.com", phone: "0345618563" },
-    { name: "Nam Nguyễn", email: "namnnps38713@gmail.com", phone: "0399092212" },
-    { name: "nam", email: "namnn51204@gmail.com", phone: "0390922121" },
-    { name: "toanpt301ne", email: "phamthanhtoan301bt@gmail.com", phone: "0349535063" },
-    { name: "đạt", email: "datn34886@gmail.com", phone: "09231245781" },
-];
 const userPerPage = 8;
 
-export default function UserManager() {
+export default function OrderManager() {
     const [currentPage, setCurrentPage] = useState(0);
     const [sortUser, setSortUser] = useState('asc');
-    const [user, setUser] = useState([]);
+    const [orders, setOrders] = useState([]);
 
     useEffect(() => {
-        const fetchUser = async () => {
+        const fetchOrder = async () => {
             try {
-                const userData = await AxiosInstance().get('users/all');
-                setUser(userData.data);
+                const { data } = await AxiosInstance().get('orders/getOrders');
+                setOrders(data);
+                console.log(data);
             } catch (e) {
-                console.log("Lấy người dùng thất bại: " + e);
+                console.log("Lấy đơn hàng thất bại: " + e);
             }
         }
-        fetchUser();
+        fetchOrder();
     }, []);
 
     const handleSortByName = () => {
-        setSortUser(sortUser === 'asc' ? 'desc' : 'asc');
+        setSortUser(prevSort => prevSort === 'asc' ? 'desc' : 'asc');
         setCurrentPage(0);
     };
 
-    const sortedUsers = [...users].sort((a, b) => {
-        if (sortUser === 'asc') {
-            return a.name.localeCompare(b.name, 'vi');
-        } else {
-            return b.name.localeCompare(a.name, 'vi');
-        }
-    })
+    const sortedUsers = [...orders].sort((a, b) => {
+        return new Date(b.createdAt) - new Date(a.createdAt); 
+    });
 
     const totalPages = Math.ceil(sortedUsers.length / userPerPage);
 
@@ -75,30 +61,45 @@ export default function UserManager() {
     return (
         <div className={styles.managerContainer}>
             <div className={styles.managerTitle}>
-                <h2>Quản lý người dùng</h2>
+                <h2>Quản lý đơn hàng</h2>
             </div>
             <div className={styles.tableTitle}>
                 <h3>
-                    Danh sách người dùng
+                    Danh sách đơn hàng
                 </h3>
             </div>
             <table className={styles.table}>
                 <thead>
                     <tr>
-                        <th onClick={handleSortByName} className={styles.sortableHeader}>
-                            Tên người dùng {sortUser === 'asc' ? <img className={styles.sortIcon} src='/assets/sort-up-svgrepo-com.svg'></img> : <img className={styles.sortIcon} src='/assets/sort-down-svgrepo-com.svg'></img>}
+                        <th>
+                            ID đơn hàng 
                         </th>
-                        <th>Email</th>
-                        <th>Số điện thoại</th>
                         <th>Sự kiện</th>
+                        <th>Tên người dùng</th>
+                        <th>Email</th>
+                        <th>Trạng thái</th>
+                        <th>Ngày tạo</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {sortedUsers.map((user, index) => (
-                        <tr key={index}>
-                            <td>{user.name}</td>
-                            <td>{user.email}</td>
-                            <td>{user.phone}</td>
+                    {sortedUsers.map((order) => (
+                        <tr key={order._id}>
+                            <td>{order._id}</td>
+                            <td>{order.eventId?.name || "Không có tên sự kiện"}</td>
+                            <td>{order.userId?.username || "Không có tên người dùng"}</td>
+                            <td>{order.userId?.email || "Không có email"}</td>
+                            <td>{order.status}</td>
+                            <td>
+                                {(() => {
+                                    const date = new Date(order.createdAt);
+                                    const day = String(date.getUTCDate()).padStart(2, '0');
+                                    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+                                    const year = date.getUTCFullYear();
+                                    const hours = String(date.getUTCHours()).padStart(2, '0');
+                                    const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+                                    return `${day}/${month}/${year} ${hours}:${minutes}`;
+                                })()}
+                            </td>
                             <td>
                                 <button className={styles.detailButton}>Chi tiết</button>
                             </td>
@@ -128,6 +129,5 @@ export default function UserManager() {
                 </div>
             </div>
         </div>
-
     )
 }
