@@ -18,9 +18,26 @@ const userPerPage = 8;
 
 export default function UserManager() {
     const [currentPage, setCurrentPage] = useState(0);
-    const totalPages = Math.ceil(users.length / userPerPage);
+    const [sortUser, setSortUser] = useState('asc');
+
+    const handleSortByName = () => {
+        setSortUser(sortUser === 'asc' ? 'desc' : 'asc');
+        setCurrentPage(0);
+    };
+
+    const sortedUsers = [...users].sort((a,b)=>{
+        if(sortUser === 'asc'){
+            return a.name.localeCompare(b.name, 'vi');
+        } else {
+            return b.name.localeCompare(a.name, 'vi');
+        }
+    })
+    
+    const totalPages = Math.ceil(sortedUsers.length / userPerPage);
+
     const startIndex = currentPage * userPerPage;
-    const selectedUsers = users.slice(startIndex, startIndex + userPerPage);
+
+    const paginatedUsers  = sortedUsers.slice(startIndex, startIndex + userPerPage);
 
     const handlePreviousPage = () => {
         if(currentPage > 0){
@@ -35,12 +52,13 @@ export default function UserManager() {
     };
 
     const emptyRows = [];
-    if (selectedUsers.length < userPerPage) {
-        const emptyRowsCount = userPerPage - selectedUsers.length;
+    if (paginatedUsers.length < userPerPage) {
+        const emptyRowsCount = userPerPage - paginatedUsers.length;
         for (let i = 0; i < emptyRowsCount; i++) {
             emptyRows.push(i);
         }
     }
+
   return (
         <div className={styles.managerContainer}>
             <div className={styles.managerTitle}>
@@ -54,14 +72,16 @@ export default function UserManager() {
             <table className={styles.table}>
                 <thead>
                     <tr>
-                        <th>Tên người dùng</th>
+                        <th onClick={handleSortByName} className={styles.sortableHeader}>
+                            Tên người dùng {sortUser === 'asc' ? <img className={styles.sortIcon} src='/assets/sort-up-svgrepo-com.svg'></img> : <img className={styles.sortIcon} src='/assets/sort-down-svgrepo-com.svg'></img>}
+                        </th>
                         <th>Email</th>
                         <th>Số điện thoại</th>
                         <th>Sự kiện</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {selectedUsers.map((user, index) => (
+                    {sortedUsers.map((user, index) => (
                         <tr key={index}>
                             <td>{user.name}</td>
                             <td>{user.email}</td>

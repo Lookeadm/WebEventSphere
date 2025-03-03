@@ -39,8 +39,8 @@ export default function LoginScreen() {
         if (isValid) {
             const foundUser = userList.find(user => user.username === username && user.password === password);
             if (foundUser) {
-                alert('Đăng nhập thành công');
                 router.push('/ManagerScreen');
+                alert('Đăng nhập thành công');
             } else {
                 setLoginError('Tên đăng nhập hoặc mật khẩu không đúng');
             }

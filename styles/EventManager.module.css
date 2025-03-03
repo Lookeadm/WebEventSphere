@@ -77,6 +77,18 @@
     height: 32;
 }
 
+.sortableHeader {
+    cursor: pointer;
+    user-select: none;
+    
+}
+
+.sortIcon {
+    width: 20;
+    height: 15;
+    color:#555555 ;
+}
+
 .paginationContainer {
     display: flex;
     justify-content: center;

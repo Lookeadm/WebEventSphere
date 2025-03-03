@@ -43,7 +43,7 @@
 .table th {
     background: #B7E4C7  ;
     font-size: 18;
-    color: #555555 
+    color: #555555;
 }
 
 .table tr {
@@ -71,6 +71,17 @@
 
 .emptyRow td {
     height: 32;
+}
+
+.sortableHeader {
+    cursor: pointer;
+    user-select: none;
+}
+
+.sortIcon {
+    width: 20;
+    height: 15;
+    color:#555555 ;
 }
 
 .paginationContainer {
