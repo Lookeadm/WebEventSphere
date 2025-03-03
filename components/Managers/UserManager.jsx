@@ -81,7 +81,7 @@ export default function UserManager() {
                     </tr>
                 </thead>
                 <tbody>
-                    {sortedUsers.map((user, index) => (
+                    {paginatedUsers.map((user, index) => (
                         <tr key={index}>
                             <td>{user.name}</td>
                             <td>{user.email}</td>
